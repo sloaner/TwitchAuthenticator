@@ -11,6 +11,7 @@ class SamplePlugin : JavaPlugin() {
         authenticator = TwitchAuthenticator(this)
 
         getCommand("twitch_on")?.setExecutor(CommandStart(authenticator))
+        getCommand("twitch_off")?.setExecutor(CommandStop(authenticator))
     }
 
     override fun onDisable() {

@@ -22,7 +22,7 @@ class TwitchAuthenticator(
     private val plugin: JavaPlugin
 ) {
     //region Public API
-    fun promptAuthorize(caller: CommandSender) {
+    fun promptToAuthorize(caller: CommandSender) {
         caller.spigot().sendMessage(
             TextComponent("Click Here").apply {
                 isUnderlined = true
@@ -32,6 +32,12 @@ class TwitchAuthenticator(
             }
         )
         startRedirectHandlerServer()
+    }
+
+    fun clearAuthorization() {
+        plugin.config.set("twitchAuth.auth_token", "")
+        plugin.config.set("twitchAuth.refresh_token", "")
+        plugin.saveConfig()
     }
     //endregion
 
