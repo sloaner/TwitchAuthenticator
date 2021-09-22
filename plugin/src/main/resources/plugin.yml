@@ -1,0 +1,16 @@
+name: SamplePlugin
+main: com.jsloane.plugin.SamplePlugin
+version: 0.0.1
+load: POSTWORLD
+commands:
+  twitch_on:
+    description: Get a twitch user token
+    permission: twitchauth.auth
+    usage: "Usage /<command>"
+  twitch_off:
+    description: Clear the saved token
+    permission: twitchauth.auth
+    usage: "Usage /<command>"
+permissions:
+  twitchauth.*:
+    default: op

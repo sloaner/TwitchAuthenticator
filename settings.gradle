@@ -1,0 +1,3 @@
+rootProject.name = "TwitchAuthenticator"
+include "library"
+include "plugin"

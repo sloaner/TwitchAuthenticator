@@ -1,0 +1,8 @@
+twitchAuth:
+  port: 8126
+  clientId: <client_id>
+  clientSecret: <client_secret>
+  scope:
+    - chat:read
+    - bits:read
+    - channel:read:redemptions
