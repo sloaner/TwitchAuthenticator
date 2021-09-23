@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.plugin.java.JavaPlugin
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.ServerConnector
+import org.eclipse.jetty.server.handler.StatisticsHandler
 import org.eclipse.jetty.util.ssl.SslContextFactory
 import java.io.BufferedReader
 import java.io.IOException
@@ -168,6 +169,8 @@ class TwitchAuthenticator(
             config.enforceSsl = true
             config.server {
                 Server().apply {
+                    handler = StatisticsHandler()
+                    stopTimeout = 30000
                     connectors = arrayOf(ServerConnector(this, sslContextFactory).apply { port = redirectPort })
                 }
             }
@@ -188,12 +191,13 @@ class TwitchAuthenticator(
         Thread.currentThread().contextClassLoader = plugin.javaClass.classLoader
 
         webserver.start()
-        plugin.server.scheduler.runTaskLaterAsynchronously(plugin, Runnable { webserver.stop() }, 20 * 60 * 5L)
 
         Thread.currentThread().contextClassLoader = cachedClassLoader
     }
 
     private fun handleRedirectSuccess(code: String) {
+        plugin.server.scheduler.runTaskLaterAsynchronously(plugin, Runnable { webserver.stop() }, 20 * 30L)
+
         val request = Request.Builder()
             .url("${twitchTokenUrl}&code=${code}")
             .post(byteArrayOf().toRequestBody(null))
