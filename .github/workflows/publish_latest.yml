@@ -1,12 +1,14 @@
-# This is a basic workflow to help you get started with Actions
+name: Publish Latest
 
-name: CI
-
-# Controls when the workflow will run
 on:
   pull_request:
     branches: [ release ]
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Doesnt actually do anything"
+        required: false
+      
 
 jobs:
   build:
@@ -36,5 +38,5 @@ jobs:
           body: ${{ steps.Changelog.outputs.changelog }}
           allowUpdates: true
           prerelease: true
-          tag: latest
+          tag: "latest"
           
