@@ -1,0 +1,32 @@
+name: Publish latest
+
+on:
+  pull_request:
+    branches: [ release ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Gradle Build library
+        uses: gradle/gradle-build-action@v2.0-beta.1
+        with:
+          gradle-version: 7.1.1
+          arguments: ":library:shadowJar"
+
+      - name: Changelog
+        uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+        id: Changelog
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.8.9
+        with:
+          artifacts: "library/build/libs/library*-all.jar"
+          body: ${{ steps.Changelog.outputs.changelog }}
+          allowUpdates: true
+          prerelease: true
+          tag: "latest"
