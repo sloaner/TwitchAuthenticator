@@ -1,13 +1,13 @@
 name: Publish Latest
 
 on:
-  pull_request:
-    branches: [ release ]
   workflow_dispatch:
     inputs:
       tag:
         description: "Doesnt actually do anything"
         required: false
+  pull_request:
+    branches: [ release ]
       
 
 jobs:
@@ -15,14 +15,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
       - name: Gradle Build library
         uses: gradle/gradle-build-action@v2.0-beta.1
         with:
           gradle-version: 7.1.1
-          build-root-directory: $GITHUB_WORKSPACE
           arguments: :library:shadowJar
       
       - name: Changelog
